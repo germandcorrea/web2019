@@ -260,6 +260,71 @@ genera el archivo **app/Http/Controllers/API/ArticleController.php**
 * **API/ArticleController** nombre del controlador **ArticleController** dentro del namespace **API**.
 * **--api** genera sólo los métodos necesarios para un recurso **REST** (index, store, show, update, destroy).
 * **-m Article** indicamos en nombre del modelo.
+  
+Editar el archivo **app/Http/Controllers/API/ArticleController.php**
+
+##### Modificar el método index
+
+```php
+/**
+get api/articles
+una solicitud get a api/article retorna un listado de artículos
+*/
+
+// $articles = Article::all();   // buscar todos los artículos
+$articles = Article::paginate(); // buscar todos los artículos pero paginados de a 15
+return $articles; //retorna los artículos encontrados
+```
+
+##### Modificar el método store
+
+```php
+/**
+post api/articles
+una solicitud post a api/article crea un nuevo artículo y luego lo retorna.
+*/
+
+$article = Article::create($request->all()); //Crear un Artículo con los atributos que llegan en la solicitud.
+return response()->json($article,201); //retornar el nuevo Artículo con el código de estado 201 (CREATED)
+```
+
+##### Modificar el método show
+
+```php
+/**
+get api/articles/{article}
+una solicitud get a api/article/15  retorna el artículo con id 15
+*/
+
+return $article; // retornar el Artículo encontrado por su id
+```
+
+##### Modificar el método update
+
+es necesario agregar un parámetro **Article $article** al método update para que laravel entienda que tiene que inyectar el objeto del modelo **Article** que encuentre con el id pasado por la url
+
+```php
+public function update(Request $request, Article $article)
+{
+    /**
+    put api/articles/{article}
+    una solicitud put a api/article/15  modifica el artículo con id 15
+    */
+    $article->update($request->all()); // modificar los atributos del artículo encontrado con los valores que llegan en la solicitud.
+    return $article; // retornamos el objeto modificado
+}
+```
+
+##### modificar el método destroy
+
+```php
+/**
+delete api/articles/{article}
+una solicitud delete a api/article/15  elimina el artículo con id 15
+*/
+$article->delete(); // eliminar el artículo
+return response()->json(null,204); // retornar vacío con el código de estado 204 (NO CONTENT)
+```
 
 #### Agregar las rutas
 
