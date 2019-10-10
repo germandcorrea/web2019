@@ -33,15 +33,27 @@ composer require barryvdh/laravel-debugbar --dev
 * **barryvdh/laravel-debugbar** es una barra de depuración, muy recomendable para desarrollar.
 * **--dev** sólo para el entorno **dev** de desarrollo, en el entorno **prod** de producción no estará disponible.
 
+## Abrir el directorio actual con el editor de texto
+
+En la maquina virtual tienen instalado **Visual Studio Code** ([Web Oficial](https://code.visualstudio.com/)), con un conjunto de extensiones adecuadas para el desarrollo web en laravel.
+
+```shell
+code .
+```
+
 ## Ciclo Básico de Desarrollo
 
 **artisan** es el script que nos permite al desarrollador comunicarse con la webapp, para obtener datos específicos de la aplicación, y también modificar los componentes de la misma.
 
 ### Ejecutar el servidor de desarrollo
 
+Laravel tiene un servidor de desarrollo integrado que se inicia con el siguiente comando
+
 ```shell
 php artisan serve
 ```
+
+**Importante** para detener el servidor de desarrollo es necesario usar la convinación de teclas **CTRL+C**
 
 ### Mostrar una lista de las rutas disponibles en la webapp
 
@@ -73,6 +85,8 @@ Route::get('ping-json',function(){
 ```
 
 ### Crear una base de datos en mysql
+
+Para crear una base de datos es necesario usar un cliente de administración de MySQL, en la maquina virtual tienen instalado **MySQL Workbench** buscar en el menu **Inicio --> Programación --> MySQL Workbench** o el icono del escritorio.
 
 ```sql
 create database pf;
@@ -136,9 +150,9 @@ heroku addons:create heroku-postgresql:hobby-dev
 
 ### Declaramos las variables que necesita laravel, para funcionar
 
-Configuramos las variables de entorno en el servidor de heroku, es decir las variables que teniamos definidas en nuestro archivo **.env** tienen que definirse como variables de entorno en los servidores de heroku.
+Configuramos las variables de entorno en el servidor de heroku, es decir las variables que teníamos definidas en nuestro archivo **.env** tienen que definirse como variables de entorno en los servidores de heroku.
 
-#### Variables para la clave secreta de la aplicación.
+#### Variables para la clave secreta de la aplicación
 
 ```shell
 heroku config:set APP_KEY=$(php artisan key:generate --show)
@@ -332,13 +346,7 @@ Editar el archivo de rutas **routes/api.php** y agregar la ruta.
 [Documentación rutas](https://laravel.com/docs/6.x/routing)
 
 ```php
-Route::resource('articles', 'API\ArticleController')->only([
-    'index',
-    'store',
-    'show',
-    'update',
-    'destroy'
-]);
+Route::apiResource('articles', 'API\ArticleController');
 ```
 
 ### Ahora es necesario agregar un nuevo Modelo Comentario
@@ -464,10 +472,10 @@ agregar las rutas en el archivo **routes/api.php**
 
 ```php
 // POST /api/articles/5/comments
-Route::post('articles/{article}/comments','API\ArticleController@addComment');
+Route::post('articles/{article}/comments','API\ArticleController@addComment')->name('articles.addComment');
 
 // GET /api/articles/5/comments
-Route::get('articles/{article}/comments','API\ArticleController@comments');
+Route::get('articles/{article}/comments','API\ArticleController@comments')->name('articles.comments');
 ```
 
 ### Subir los cambios a producción
