@@ -18,7 +18,7 @@ Las configuraciones del entorno local deben actualizarse en el archivo **.env**
 
 ### Copiar el archivo .env.example
 
-Pero esté archivo no existe en el directorio del proyecto debido a que el sistema de control de versiones de código no lo guarda. Entonces es necesario generar uno nuevo, copiando el archivo de ejemplo con el comando
+Pero esté archivo no existe en el directorio del proyecto debido a que el sistema de control de versiones de código no lo guarda. Entonces es necesario generar uno nuevo, copiando el archivo de ejemplo con el comando en la terminal del proyecto.
 
 ```shell
 cp .env.example .env
@@ -26,7 +26,7 @@ cp .env.example .env
 
 ### Clave de seguridad de la aplicación
 
-Generar una nueva clave de seguridad de la aplicación con el siguiente comando
+Generar una nueva clave de seguridad de la aplicación con el siguiente comando en la terminal del proyecto.
 
 ```shell
 php artisan key:generate
@@ -57,7 +57,7 @@ DB_PASSWORD=claveSecreta
 
 #### Migrar la Base de Datos
 
-Una vez que la base de datos está configurada es hora correr la migración desde la aplicación para generar la estructura de datos.
+Una vez que la base de datos está configurada es hora correr la migración desde la aplicación para generar la estructura de datos ejecutando el siguiente comando en la terminal del proyecto.
 
 ```shell
 php artisan migrate
@@ -65,13 +65,15 @@ php artisan migrate
 
 #### Generar los Datos
 
-Hasta el momento tenemos la estructura de datos en la base de datos, pero todas las tablas están vacías. Es el instante oportuno para correr los **Seeder** y de está manera generar los datos programados.
+Hasta el momento tenemos la estructura de datos en la base de datos, pero todas las tablas están vacías. Es el instante oportuno para correr los **Seeder** y de está manera generar los datos programados ejecutando el comando en la terminal del proyecto.
 
 ```shell
 php artisan db:seed
 ```
 
 ## Iniciar el servidor de Desarrollo
+
+Iniciar el servidor de desarrollo ejecutando el comando en la terminal del proyecto.
 
 ```shell
 php artisan serve
