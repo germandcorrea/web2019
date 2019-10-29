@@ -70,3 +70,9 @@ Hasta el momento tenemos la estructura de datos en la base de datos, pero todas 
 ```shell
 php artisan db:seed
 ```
+
+## Iniciar el servidor de Desarrollo
+
+```shell
+php artisan serve
+```
