@@ -244,6 +244,9 @@ Con el comando anterior se genera el archivo **database/seeds/ArticleTableSeeder
 tenemos que generar los datos agregando el siguiente código al método **run**
 
 ```php
+//En el encabezado incluir el use del modelo article
+use App\Article;
+
 $faker = \Faker\Factory::create(); //creamos una instancia de faker para obtener el generador de datos de prueba
 for ($i=0; $i < 50; $i++) {  // generar 50 artículos
     Article::create([
