@@ -107,87 +107,6 @@ Una vez configurada la base de datos, podemos comenzar a interactuar desde **art
 ```shell
 php artisan migrate
 ```
-
-## Desplegar la aplicación en Heroku
-
-[guia oficial de heroku](https://devcenter.heroku.com/articles/getting-started-with-laravel)
-
-Lo primero que necesitamos es una cuenta en heroku, es gratuito para eso hay que ir a la página de heroku.com y registrase.
-
-Luego es necesario instalar la herramienta de linea de comandos para comunicarse con heroku, que en la maquina virtual ya está instalada.
-
-Iniciar Sesión en heroku, nos va a pedir el correo electrónico y la password con la que nos registramos en el sitio.
-
-```shell
-heroku login
-```
-
-Generar el archivo **Procfile** donde indicamos que vamos a usar como servidor WEB una instancia de apache2 con php configurado apuntando **DocumentRoot** al directorio **public** de nuestra aplicación.  
-
-```shell
-echo "web: vendor/bin/heroku-php-apache2 public/" > Procfile
-```
-
-Heroku como la mayoría de servicios web en la nube, utilizan **GIT** para subir los archivos al repositorio del servidor. por lo tanto es necesario iniciar un repositorio git dentro de nuestro proyecto **git init**, agregar todos los archivos del proyecto al repositorio **git add .** y por ultimo confirmar los que los archivos están listos en nuestro repositorio **git commit -m "app: inicio de repositorio"**, todos esto es en nuestro repositorio local.
-
-```shell
-git init
-git add .
-git commit -m "app: inicio de repositorio"
-```
-
-Crear una nueva aplicación en el servidor de Heroku. el nombre de la aplicación se generará automáticamente para no producir conflictos en los nombres (podemos también poner un nombre a gusto agregando el nombre al final, pero corremos el riesgo de producir una colisión de nombres).
-
-```shell
-heroku create
-```
-
-Agregar PostgreSQL a nuestra aplicación en el servidor de heroku, luego podremos ver que en el heroku tenemos una variable de entorno **DATABASE_URL** que contiene los parámetros de conexión hacia el servidor de base de datos.
-
-```shell
-heroku addons:create heroku-postgresql:hobby-dev
-```
-
-### Declaramos las variables que necesita laravel, para funcionar
-
-Configuramos las variables de entorno en el servidor de heroku, es decir las variables que teníamos definidas en nuestro archivo **.env** tienen que definirse como variables de entorno en los servidores de heroku.
-
-#### Variables para la clave secreta de la aplicación
-
-```shell
-heroku config:set APP_KEY=$(php artisan key:generate --show)
-```
-
-#### Variables para el driver de base de datos
-
- Como la base de datos ahora es PostgreSQL debemos indicar la configuración adecuada de la variable de entorno **DB_CONNECTION** para que laravel pueda usar el driver adecuado **pgsql**.
-
-```shell
-heroku config:set DB_CONNECTION=pgsql
-```
-
-### Subir la app a producción
-
-Una vez configurada la application es hora de subir la aplicación al servidor de Heroku, nuevamente mediante **GIT**
-
-```shell
-git push heroku master
-```
-
-#### Correr migraciones si es necesario
-
-Corremos las migraciones en el servidor de heroku
-
-```shell
-heroku run php artisan migrate
-```
-
-#### Lanzamos nuestra aplicación en el navegador web
-
-```shell
-heroku open
-```
-
 ## Parte 2 - Generar la API para los Modelos
 
 ### Crear el modelo para los Artículos
@@ -479,6 +398,86 @@ Route::post('articles/{article}/comments','API\ArticleController@addComment')->n
 
 // GET /api/articles/5/comments
 Route::get('articles/{article}/comments','API\ArticleController@comments')->name('articles.comments');
+```
+
+## Desplegar la aplicación en Heroku
+
+[guia oficial de heroku](https://devcenter.heroku.com/articles/getting-started-with-laravel)
+
+Lo primero que necesitamos es una cuenta en heroku, es gratuito para eso hay que ir a la página de heroku.com y registrase.
+
+Luego es necesario instalar la herramienta de linea de comandos para comunicarse con heroku, que en la maquina virtual ya está instalada.
+
+Iniciar Sesión en heroku, nos va a pedir el correo electrónico y la password con la que nos registramos en el sitio.
+
+```shell
+heroku login
+```
+
+Generar el archivo **Procfile** donde indicamos que vamos a usar como servidor WEB una instancia de apache2 con php configurado apuntando **DocumentRoot** al directorio **public** de nuestra aplicación.  
+
+```shell
+echo "web: vendor/bin/heroku-php-apache2 public/" > Procfile
+```
+
+Heroku como la mayoría de servicios web en la nube, utilizan **GIT** para subir los archivos al repositorio del servidor. por lo tanto es necesario iniciar un repositorio git dentro de nuestro proyecto **git init**, agregar todos los archivos del proyecto al repositorio **git add .** y por ultimo confirmar los que los archivos están listos en nuestro repositorio **git commit -m "app: inicio de repositorio"**, todos esto es en nuestro repositorio local.
+
+```shell
+git init
+git add .
+git commit -m "app: inicio de repositorio"
+```
+
+Crear una nueva aplicación en el servidor de Heroku. el nombre de la aplicación se generará automáticamente para no producir conflictos en los nombres (podemos también poner un nombre a gusto agregando el nombre al final, pero corremos el riesgo de producir una colisión de nombres).
+
+```shell
+heroku create
+```
+
+Agregar PostgreSQL a nuestra aplicación en el servidor de heroku, luego podremos ver que en el heroku tenemos una variable de entorno **DATABASE_URL** que contiene los parámetros de conexión hacia el servidor de base de datos.
+
+```shell
+heroku addons:create heroku-postgresql:hobby-dev
+```
+
+### Declaramos las variables que necesita laravel, para funcionar
+
+Configuramos las variables de entorno en el servidor de heroku, es decir las variables que teníamos definidas en nuestro archivo **.env** tienen que definirse como variables de entorno en los servidores de heroku.
+
+#### Variables para la clave secreta de la aplicación
+
+```shell
+heroku config:set APP_KEY=$(php artisan key:generate --show)
+```
+
+#### Variables para el driver de base de datos
+
+ Como la base de datos ahora es PostgreSQL debemos indicar la configuración adecuada de la variable de entorno **DB_CONNECTION** para que laravel pueda usar el driver adecuado **pgsql**.
+
+```shell
+heroku config:set DB_CONNECTION=pgsql
+```
+
+### Subir la app a producción
+
+Una vez configurada la application es hora de subir la aplicación al servidor de Heroku, nuevamente mediante **GIT**
+
+```shell
+git push heroku master
+```
+
+#### Correr migraciones si es necesario
+
+Corremos las migraciones en el servidor de heroku
+
+```shell
+heroku run php artisan migrate
+```
+
+#### Lanzamos nuestra aplicación en el navegador web
+
+```shell
+heroku open
 ```
 
 ### Subir los cambios a producción
