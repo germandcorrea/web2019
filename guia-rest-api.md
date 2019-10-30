@@ -160,12 +160,15 @@ php artisan make:seeder ArticleTableSeeder
 * **ArticleTableSeeder** el nombre del Sedeer.
 
 Con el comando anterior se genera el archivo **database/seeds/ArticleTableSeeder.php**, en el mismo
-tenemos que generar los datos agregando el siguiente código al método **run**
+tenemos que generar los datos agregando en el encabezado incluir el **use** de la clase del modelo **Article**
 
 ```php
-//En el encabezado incluir el use del modelo article
 use App\Article;
+```
 
+y por otro lado el siguiente código al método **run**
+
+```php
 $faker = \Faker\Factory::create(); //creamos una instancia de faker para obtener el generador de datos de prueba
 for ($i=0; $i < 50; $i++) {  // generar 50 artículos
     Article::create([
